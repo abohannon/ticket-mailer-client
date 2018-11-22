@@ -1,0 +1,10 @@
+/* CARD STYLES */
+.ant-card-head-title {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* TABLE STYLES */
+.ant-table-thead > tr > th {
+  background: #f7fafc;
+}
