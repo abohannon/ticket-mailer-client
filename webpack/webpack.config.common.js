@@ -1,19 +1,11 @@
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
+import CleanWebpackPlugin from 'clean-webpack-plugin'
 
 const root = process.cwd()
 const src = path.join(root, 'src')
 const build = path.join(root, 'build')
-
-// For caching
-const vendor = [
-  'react',
-  'react-dom',
-  'react-router',
-  'react-redux',
-  'redux',
-]
 
 export default {
   entry: {
@@ -21,7 +13,6 @@ export default {
       '@babel/polyfill',
       './src/index.js',
     ],
-    vendor,
   },
   module: {
     rules: [
@@ -31,17 +22,6 @@ export default {
         loader: 'babel-loader',
         options: {
           babelrc: true,
-          presets: [
-            ['@babel/preset-env', {
-              modules: false,
-            }],
-            '@babel/react',
-          ],
-          env: {
-            test: {
-              presets: [['@babel/preset-env'], '@babel/react'],
-            },
-          },
         },
       },
       {
@@ -53,18 +33,16 @@ export default {
   resolve: { extensions: ['*', '.js', '.jsx'] },
   output: {
     path: build,
-    filename: '[hash].bundle.js',
+    filename: '[name].[hash].js',
     publicPath: '/',
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
   plugins: [
+    new CleanWebpackPlugin(['build'], { root }),
     new HtmlWebpackPlugin({
+      title: 'Caching',
       inject: true,
       template: 'public/index.html',
     }),
+    new webpack.HashedModuleIdsPlugin(),
   ],
 }
