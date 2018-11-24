@@ -4,7 +4,6 @@ import path from 'path'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 
 const root = process.cwd()
-const src = path.join(root, 'src')
 const build = path.join(root, 'build')
 
 export default {
