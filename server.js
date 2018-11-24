@@ -1,8 +1,10 @@
-const path = require('path')
-const express = require('express')
+import path from 'path'
+import express from 'express'
+import helmet from 'helmet'
 
 const app = express()
 
+app.use(helmet())
 app.use(express.static(path.join(__dirname, 'build')))
 app.set('port', process.env.PORT || 8080)
 
