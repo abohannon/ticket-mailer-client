@@ -23,7 +23,8 @@
         "react/require-default-props": 0,
         "camelcase": 0,
         "semi": [2, "never"],
-        "jsx-a11y/anchor-is-valid": 0
+        "jsx-a11y/anchor-is-valid": 0,
+        "react/jsx-one-expression-per-line": 0
     },
     "globals": {
         "NODE_ENV": true,

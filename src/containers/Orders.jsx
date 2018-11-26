@@ -12,8 +12,9 @@ import EmailForm from 'components/EmailForm'
 // Actions
 import { fetchOrders, search } from 'actions/applicationActions'
 import { fetchEmail, saveEmail, sendEmail } from 'actions/emailActions'
+import { showModal } from 'actions/modalActions'
 
-import { SEARCH_ORDERS, CLEAR_SEARCH } from 'actions/types'
+import { SEARCH_ORDERS, CLEAR_SEARCH, CONFIRM_SEND_EMAIL } from 'actions/types'
 
 class Orders extends Component {
   static propTypes = {
@@ -106,7 +107,10 @@ class Orders extends Component {
       saveEmailResolved,
       saveEmailRejected,
       searchResultsOrders,
+      dispatch,
     } = this.props
+
+    const { selectedOrders } = this.state
 
     const tabList = [{
       key: 'orders',
@@ -125,11 +129,16 @@ class Orders extends Component {
     const emailSaveError = !isEmpty(saveEmailRejected)
     const disabled = this.state.selectedOrders.length < 1
 
+    const modalProps = {
+      selectedOrders,
+      handleEmail: this.handleEmail,
+    }
+
     const sendEmailButton = (
       <Button
         type="primary"
         disabled={disabled}
-        onClick={() => this.handleEmail(this.state.selectedOrders)}
+        onClick={() => dispatch(showModal(CONFIRM_SEND_EMAIL, modalProps))}
       >
         Send Email
       </Button>

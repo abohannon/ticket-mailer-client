@@ -6,6 +6,7 @@ import {
   REMOVE_ADMIN,
   DELETE_USER,
   INVITE_USER,
+  CONFIRM_SEND_EMAIL,
 } from 'actions/types'
 
 // Modal Components
@@ -13,12 +14,14 @@ import ModalRemoveAdmin from 'components/UserSettings/ModalRemoveAdmin'
 import ModalInviteUser from 'components/UserSettings/ModalInviteUser'
 import ModalMakeAdmin from 'components/UserSettings/ModalMakeAdmin'
 import ModalDeleteUser from 'components/UserSettings/ModalDeleteUser'
+import ModalConfirmSendEmail from 'components/ModalConfirmSendEmail'
 
 const MODAL_COMPONENTS = {
   [MAKE_ADMIN]: ModalMakeAdmin,
   [REMOVE_ADMIN]: ModalRemoveAdmin,
   [DELETE_USER]: ModalDeleteUser,
   [INVITE_USER]: ModalInviteUser,
+  [CONFIRM_SEND_EMAIL]: ModalConfirmSendEmail,
 }
 
 const ModalRoot = (props) => {
