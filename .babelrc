@@ -10,7 +10,7 @@
   },
   "plugins": [
     ["module-resolver", {
-      "root": ["./src"]
+      "root": ["/", "./src"]
     }],
     "@babel/plugin-proposal-class-properties"
   ]

@@ -50,10 +50,6 @@ class Sidebar extends Component {
             <StyledIcon type="environment-o" />
             Shows
           </MenuItem>
-          <MenuItem path="/dashboard" index={2}>
-            <StyledIcon type="inbox" />
-            Sent Emails
-          </MenuItem>
           <Spacer />
         </Menu>
       </Wrapper>
