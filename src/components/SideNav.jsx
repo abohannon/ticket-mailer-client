@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Icon } from 'antd'
 
@@ -30,10 +29,6 @@ const Title = styled.h3`
 `
 
 class Sidebar extends Component {
-  static propTypes = {
-    onLogout: PropTypes.func,
-  }
-
   render() {
     return (
       <Wrapper className="side-nav">
@@ -42,11 +37,11 @@ class Sidebar extends Component {
         </Header>
         <Spacer />
         <Menu>
-          <MenuItem path="/dashboard/tours" index={0}>
+          <MenuItem path="/dashboard/tours">
             <StyledIcon type="profile" />
             Tours
           </MenuItem>
-          <MenuItem path="/dashboard/shows/all" index={1}>
+          <MenuItem path="/dashboard/shows/all">
             <StyledIcon type="environment-o" />
             Shows
           </MenuItem>
