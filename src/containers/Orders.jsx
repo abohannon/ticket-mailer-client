@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { CARD_TITLE_PRIMARY } from 'constants'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 
 import { Card } from 'components/common'
 import OrdersList from 'components/OrdersList'
@@ -47,6 +47,21 @@ class Orders extends Component {
     dispatch(fetchEmail(searchQuery))
   }
 
+  componentDidUpdate(prevProps) {
+    const { sendEmailPending, sendEmailResolved, sendEmailRejected } = this.props
+
+    if (!isEmpty(prevProps.sendEmailPending) && isEmpty(sendEmailPending)) {
+      if (!isEmpty(sendEmailResolved)) {
+        message.success('Email(s) successfully sent!', 5)
+      }
+
+      if (!isEmpty(sendEmailRejected)) {
+        message.warning('There was a problem sending the email(s).')
+        console.log('%c Email send error: ', sendEmailRejected.payload.message, 'background: #222; color: #bada55')
+      }
+    }
+  }
+
   componentWillUnmount() {
     const { toggleSearchBar } = this.props
 
@@ -78,8 +93,9 @@ class Orders extends Component {
     })
   }
 
-  handleEmail = (orders) => {
+  handleEmail = (callback) => {
     const { fetchEmailResolved, location, dispatch } = this.props
+    const { selectedOrders } = this.state
 
     const { artistName, showTitle, variantTitle } = location.state
 
@@ -90,13 +106,14 @@ class Orders extends Component {
 
     const emailData = {
       content: fetchEmailResolved.payload,
-      orders,
+      orders: selectedOrders,
       artistName,
       showTitle,
       variantTitle,
     }
 
     dispatch(sendEmail(emailData))
+      .then(dispatch(callback()))
   }
 
   render() {
@@ -192,6 +209,9 @@ const mapStateToProps = ({
     fetchEmailResolved,
     saveEmailResolved,
     saveEmailRejected,
+    sendEmailPending,
+    sendEmailResolved,
+    sendEmailRejected,
   },
 }) => ({
   fetchOrdersResolved,
@@ -201,6 +221,9 @@ const mapStateToProps = ({
   saveEmailResolved,
   saveEmailRejected,
   searchResultsOrders,
+  sendEmailPending,
+  sendEmailResolved,
+  sendEmailRejected,
 })
 
 export default connect(mapStateToProps)(Orders)

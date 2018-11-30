@@ -36,7 +36,9 @@ class OrdersList extends Component {
       return (
         orders.map((order, index) => ({
           key: index,
-          orderNumber: <a href={`${SHOPIFY_STORE_URL}/admin/orders/${order.id}`} target="_blank">{order.name}</a>,
+          orderNumber: order.name,
+          orderNumberDisplay: <a href={`${SHOPIFY_STORE_URL}/admin/orders/${order.id}`} target="_blank">{order.name}</a>,
+          quantity: order.line_items && order.line_items[0].quantity,
           name: `${order.customer.first_name} ${order.customer.last_name}`,
           email: order.customer.email,
           status: this.renderStatusMessage(order),
@@ -52,7 +54,12 @@ class OrdersList extends Component {
     const { onUpdate } = this.props
 
     const filteredRowData = selectedRows.map((row) => {
-      const { key, status, ...rest } = row
+      const {
+        key,
+        status,
+        orderNumberDisplay,
+        ...rest
+      } = row
 
       return rest
     })
@@ -65,7 +72,7 @@ class OrdersList extends Component {
 
     const columns = [{
       title: 'Order #',
-      dataIndex: 'orderNumber',
+      dataIndex: 'orderNumberDisplay',
     },
     {
       title: 'Name',

@@ -20,7 +20,7 @@ const ModalConfirmSendEmail = (props) => {
     <Modal
       title="Send ticket email"
       visible={visible}
-      onOk={() => handleEmail()}
+      onOk={() => handleEmail(hideModal)}
       onCancel={() => dispatch(hideModal())}
     >
       { message() }
