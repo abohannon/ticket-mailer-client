@@ -21,6 +21,8 @@
   "scripts": {
     "start": "node server.babel.js",
     "local": "NODE_ENV=local webpack-dev-server --config ./webpack/development.babel.js",
+    "dev": "NODE_ENV=development webpack-dev-server --config ./webpack/development.babel.js",
+    "staging": "NODE_ENV=staging webpack-dev-server --config ./webpack/development.babel.js",
     "build": "webpack --config ./webpack/production.babel.js",
     "test": "NODE_ENV=test jest --verbose",
     "heroku-postbuild": "npm run build"
