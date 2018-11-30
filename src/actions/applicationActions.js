@@ -82,7 +82,12 @@ export const fetchShows = searchQuery => async (dispatch) => {
   try {
     const payload = await fetchHelper(endpoint, options)
 
-    payload.sort((a, b) => new Date(a.title.split('|')[0]) - new Date(b.title.split('|')[0]))
+    payload.sort((a, b) => {
+      const dateA = new Date(a.title.split('|')[0])
+      const dateB = new Date(b.title.split('|')[0])
+
+      return dateA - dateB
+    })
 
     action = {
       type: FETCH_SHOWS_RESOLVED,
