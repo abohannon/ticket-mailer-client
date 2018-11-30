@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { DARK_BLUE, LIGHT_BLUE } from 'constants'
 
@@ -16,27 +16,19 @@ const ListItem = styled.li`
   margin-bottom: 1.5rem;
 `
 
-const InnerContent = styled.div`
+const StyledNavLink = styled(NavLink)`
   display: flex;
   align-items: center;
-  color: ${props => (props.active ? LIGHT_BLUE : DARK_BLUE)};
-  font-weight: ${props => (props.active ? 500 : null)};
+  color: ${DARK_BLUE};
+  textDecoration: none;
+  font-weight: 200;
 `
 
 /* Start MenuItem Component */
 const propTypes = {
   children: PropTypes.array,
-  index: PropTypes.number,
-  updateActiveIndex: PropTypes.func,
   style: PropTypes.object,
   path: PropTypes.string,
-  activeIndex: PropTypes.number,
-  onClick: PropTypes.func,
-}
-
-const handleClick = (updateIndex, index, onClick) => {
-  if (onClick) onClick()
-  updateIndex(index)
 }
 
 const MenuItem = (props) => {
@@ -44,24 +36,16 @@ const MenuItem = (props) => {
     children,
     style,
     path,
-    index,
-    activeIndex,
-    onClick,
-    updateActiveIndex,
   } = props
 
-  const active = activeIndex === index
-
   return (
-    <ListItem
-      style={{ ...style }}
-      onClick={() => handleClick(updateActiveIndex, index, onClick)}
-    >
-      <Link to={path} style={{ textDecoration: 'none' }}>
-        <InnerContent active={active}>
-          {children}
-        </InnerContent>
-      </Link>
+    <ListItem style={{ ...style }}>
+      <StyledNavLink
+        to={path}
+        activeStyle={{ color: LIGHT_BLUE, fontWeight: 500, textDecoration: 'none' }}
+      >
+        {children}
+      </StyledNavLink>
     </ListItem>
   )
 }
@@ -75,22 +59,10 @@ class Menu extends Component {
     style: PropTypes.object,
   }
 
-  state = {
-    activeIndex: 0,
-  }
-
-  updateActiveIndex = (index) => {
-    console.log(index)
-    this.setState({ activeIndex: index })
-  }
-
   render() {
     const { children, style } = this.props
 
-    const childProps = {
-      activeIndex: this.state.activeIndex,
-      updateActiveIndex: this.updateActiveIndex,
-    }
+    const childProps = {}
 
     // So we can pass props to our children
     const childrenWithProps = React.Children.map(children, child => (
