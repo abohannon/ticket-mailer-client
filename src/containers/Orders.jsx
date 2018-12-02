@@ -14,7 +14,9 @@ import { fetchOrders, search } from 'actions/applicationActions'
 import { fetchEmail, saveEmail, sendEmail } from 'actions/emailActions'
 import { showModal } from 'actions/modalActions'
 
-import { SEARCH_ORDERS, CLEAR_SEARCH, CONFIRM_SEND_EMAIL } from 'actions/types'
+import {
+  SEARCH_ORDERS, CLEAR_SEARCH, CONFIRM_SEND_EMAIL, SEND_TEST_EMAIL,
+} from 'actions/types'
 
 class Orders extends Component {
   static propTypes = {
@@ -27,6 +29,9 @@ class Orders extends Component {
     saveEmailRejected: PropTypes.object,
     toggleSearchBar: PropTypes.func,
     searchResultsOrders: PropTypes.array,
+    sendEmailPending: PropTypes.object,
+    sendEmailResolved: PropTypes.object,
+    sendEmailRejected: PropTypes.object,
   }
 
   state = {
@@ -56,7 +61,7 @@ class Orders extends Component {
       }
 
       if (!isEmpty(sendEmailRejected)) {
-        message.warning('There was a problem sending the email(s).')
+        message.warning('There was a problem sending the email(s).', 5)
         console.log('%c Email send error: ', sendEmailRejected.payload.message, 'background: #222; color: #bada55')
       }
     }
@@ -116,6 +121,12 @@ class Orders extends Component {
       .then(dispatch(callback()))
   }
 
+  handleTestEmail = (email, callback) => {
+    console.log(email)
+
+    this.props.dispatch(callback())
+  }
+
   render() {
     const {
       fetchOrdersPending,
@@ -146,19 +157,34 @@ class Orders extends Component {
     const emailSaveError = !isEmpty(saveEmailRejected)
     const disabled = this.state.selectedOrders.length < 1
 
-    const modalProps = {
+    const sendEmailModalProps = {
       selectedOrders,
       handleEmail: this.handleEmail,
     }
 
+    const testEmailModalProps = {
+      selectedOrders,
+      handleTestEmail: this.handleTestEmail,
+    }
+
     const sendEmailButton = (
-      <Button
-        type="primary"
-        disabled={disabled}
-        onClick={() => dispatch(showModal(CONFIRM_SEND_EMAIL, modalProps))}
-      >
-        Send Email
-      </Button>
+      <div>
+        <Button
+          type="primary"
+          disabled={disabled}
+          onClick={() => dispatch(showModal(CONFIRM_SEND_EMAIL, sendEmailModalProps))}
+        >
+          Send email
+        </Button>
+        <Button
+          type="secondary"
+          disabled={disabled}
+          onClick={() => dispatch(showModal(SEND_TEST_EMAIL, testEmailModalProps))}
+          style={{ marginLeft: '1rem' }}
+        >
+          Send test
+        </Button>
+      </div>
     )
 
     const tabListContent = {

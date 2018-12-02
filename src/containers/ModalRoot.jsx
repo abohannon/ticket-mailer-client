@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import {
   MAKE_ADMIN,
   REMOVE_ADMIN,
   DELETE_USER,
   INVITE_USER,
   CONFIRM_SEND_EMAIL,
+  SEND_TEST_EMAIL,
 } from 'actions/types'
 
 // Modal Components
@@ -15,6 +15,7 @@ import ModalInviteUser from 'components/UserSettings/ModalInviteUser'
 import ModalMakeAdmin from 'components/UserSettings/ModalMakeAdmin'
 import ModalDeleteUser from 'components/UserSettings/ModalDeleteUser'
 import ModalConfirmSendEmail from 'components/ModalConfirmSendEmail'
+import ModalSendTestEmail from 'components/ModalSendTestEmail'
 
 const MODAL_COMPONENTS = {
   [MAKE_ADMIN]: ModalMakeAdmin,
@@ -22,6 +23,7 @@ const MODAL_COMPONENTS = {
   [DELETE_USER]: ModalDeleteUser,
   [INVITE_USER]: ModalInviteUser,
   [CONFIRM_SEND_EMAIL]: ModalConfirmSendEmail,
+  [SEND_TEST_EMAIL]: ModalSendTestEmail,
 }
 
 const ModalRoot = (props) => {
