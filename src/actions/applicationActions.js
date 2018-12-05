@@ -82,6 +82,7 @@ export const fetchShows = searchQuery => async (dispatch) => {
   try {
     const payload = await fetchHelper(endpoint, options)
 
+    // sort shows by date string in show title
     payload.sort((a, b) => {
       const dateA = new Date(a.title.split('|')[0])
       const dateB = new Date(b.title.split('|')[0])

@@ -93,7 +93,9 @@ export const sendEmail = emailData => async (dispatch) => {
   }
   dispatch(action)
 
-  const endpoint = `${API}/email/sendEmail`
+  const { testEmail } = emailData
+
+  const endpoint = testEmail ? `${API}/email/sendTestEmail` : `${API}/email/sendEmail`
 
   const headers = {
     Accept: 'application/json',

@@ -12,7 +12,7 @@ import EmailForm from 'components/EmailForm'
 // Actions
 import { fetchOrders, search } from 'actions/applicationActions'
 import { fetchEmail, saveEmail, sendEmail } from 'actions/emailActions'
-import { showModal } from 'actions/modalActions'
+import { showModal, hideModal } from 'actions/modalActions'
 
 import {
   SEARCH_ORDERS, CLEAR_SEARCH, CONFIRM_SEND_EMAIL, SEND_TEST_EMAIL,
@@ -98,7 +98,7 @@ class Orders extends Component {
     })
   }
 
-  handleEmail = (callback) => {
+  handleEmail = (data = null) => {
     const { fetchEmailResolved, location, dispatch } = this.props
     const { selectedOrders } = this.state
 
@@ -117,14 +117,8 @@ class Orders extends Component {
       variantTitle,
     }
 
-    dispatch(sendEmail(emailData))
-      .then(dispatch(callback()))
-  }
-
-  handleTestEmail = (email, callback) => {
-    console.log(email)
-
-    this.props.dispatch(callback())
+    dispatch(sendEmail({ ...emailData, ...data }))
+      .then(dispatch(hideModal()))
   }
 
   render() {
@@ -138,33 +132,18 @@ class Orders extends Component {
       dispatch,
     } = this.props
 
-    const { selectedOrders } = this.state
-
-    const tabList = [{
-      key: 'orders',
-      tab: 'List',
-    },
-    {
-      key: 'email',
-      tab: 'Edit email',
-    },
-    ]
+    const { selectedOrders, selectedRowKeys, activeTab } = this.state
 
     const orders = !isEmpty(searchResultsOrders) ? searchResultsOrders : fetchOrdersResolved.payload
     const email = fetchEmailResolved.payload
     const loading = !isEmpty(fetchOrdersPending)
     const emailSaved = !isEmpty(saveEmailResolved)
     const emailSaveError = !isEmpty(saveEmailRejected)
-    const disabled = this.state.selectedOrders.length < 1
+    const disabled = selectedOrders.length < 1
 
     const sendEmailModalProps = {
       selectedOrders,
       handleEmail: this.handleEmail,
-    }
-
-    const testEmailModalProps = {
-      selectedOrders,
-      handleTestEmail: this.handleTestEmail,
     }
 
     const sendEmailButton = (
@@ -179,7 +158,7 @@ class Orders extends Component {
         <Button
           type="secondary"
           disabled={disabled}
-          onClick={() => dispatch(showModal(SEND_TEST_EMAIL, testEmailModalProps))}
+          onClick={() => dispatch(showModal(SEND_TEST_EMAIL, sendEmailModalProps))}
           style={{ marginLeft: '1rem' }}
         >
           Send test
@@ -187,13 +166,23 @@ class Orders extends Component {
       </div>
     )
 
+    const tabList = [{
+      key: 'orders',
+      tab: 'List',
+    },
+    {
+      key: 'email',
+      tab: 'Edit email',
+    },
+    ]
+
     const tabListContent = {
       orders: (
         <OrdersList
           orders={orders || []}
           loading={loading}
           onUpdate={this.updateSelectedOrders}
-          selectedRowKeys={this.state.selectedRowKeys}
+          selectedRowKeys={selectedRowKeys}
         />
       ),
       email: (
@@ -212,12 +201,12 @@ class Orders extends Component {
           title="Orders"
           headStyle={CARD_TITLE_PRIMARY}
           tabList={tabList}
-          activeTabKey={this.state.activeTab}
+          activeTabKey={activeTab}
           onTabChange={key => this.onTabChange(key)}
-          fullWidth={this.state.activeTab === 'orders'}
-          extra={this.state.activeTab === 'orders' && sendEmailButton}
+          fullWidth={activeTab === 'orders'}
+          extra={activeTab === 'orders' && sendEmailButton}
         >
-          {tabListContent[this.state.activeTab]}
+          {tabListContent[activeTab]}
         </Card>
       </Fragment>
     )

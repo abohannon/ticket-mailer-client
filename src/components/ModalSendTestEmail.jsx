@@ -1,9 +1,25 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Input } from 'antd'
 import { Modal } from 'components/common'
 import { hideModal } from 'actions/modalActions'
 
 class ModalSendTestEmail extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func,
+    visible: PropTypes.bool,
+    selectedOrders: PropTypes.array,
+    handleEmail: PropTypes.func,
+  }
+
+  componentDidMount() {
+    const cachedEmail = localStorage.getItem('tm_test_email')
+
+    if (cachedEmail) {
+      this.setState({ value: cachedEmail })
+    }
+  }
+
   state = {
     value: '',
   }
@@ -11,12 +27,13 @@ class ModalSendTestEmail extends Component {
   onChange = ({ target }) => {
     const { value } = target
     this.setState({ value })
+    localStorage.setItem('tm_test_email', value)
   }
 
   render() {
     const { value } = this.state
     const {
-      dispatch, visible, selectedOrders, handleTestEmail,
+      dispatch, visible, selectedOrders, handleEmail,
     } = this.props
 
     return (
@@ -24,7 +41,7 @@ class ModalSendTestEmail extends Component {
         title="Send a test ticket email"
         visible={visible}
         okText="Send"
-        onOk={() => handleTestEmail(value, hideModal)}
+        onOk={() => handleEmail({ testEmail: value }, hideModal)}
         onCancel={() => dispatch(hideModal())}
       >
         <p>Send test email to:</p>
