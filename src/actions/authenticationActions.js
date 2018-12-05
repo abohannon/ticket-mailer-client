@@ -37,10 +37,19 @@ export const loginUser = body => async (dispatch) => {
     'Content-Type': 'application/json',
   }
 
+  const { remember, ...loginData } = body
+  const cachedEmail = localStorage.getItem('tm_login_email')
+
+  if (remember && !cachedEmail) {
+    localStorage.setItem('tm_login_email', loginData.email)
+  } else if (!remember && cachedEmail) {
+    localStorage.removeItem('tm_login_email')
+  }
+
   const options = {
     method: POST,
     headers,
-    body: JSON.stringify(body),
+    body: JSON.stringify(loginData),
   }
 
   try {
@@ -57,7 +66,6 @@ export const loginUser = body => async (dispatch) => {
 
     if (response.ok) {
       const { token } = json
-      localStorage.clear()
       localStorage.setItem('tm_id_token', token)
     }
 

@@ -35,7 +35,7 @@ class Login extends Component {
       if (err) {
         console.log(err)
       }
-
+      console.log(values)
       handleLogin(values)
     })
   };
@@ -69,7 +69,11 @@ class Login extends Component {
               help={emailError || ''}
             >
               {getFieldDecorator('email', {
-                rules: [{ required: true, message: 'Please enter your email.' }],
+                initialValue: localStorage.getItem('tm_login_email') || '',
+                rules: [{
+                  required: true,
+                  message: 'Please enter your email.',
+                }],
               })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0, .25)' }} />}
