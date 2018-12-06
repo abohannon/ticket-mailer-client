@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 
 import { Spacer } from 'components/common'
@@ -15,8 +14,11 @@ import { showModal } from 'actions/modalActions'
 
 class UserSettings extends Component {
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchUsers())
+    const { dispatch, user: { fetchUsersResolved } } = this.props
+
+    if (isEmpty(fetchUsersResolved)) {
+      dispatch(fetchUsers())
+    }
   }
 
   componentDidUpdate(prevProps) {

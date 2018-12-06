@@ -42,14 +42,20 @@ class Orders extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, location, toggleSearchBar } = this.props
+    const {
+      dispatch, location, toggleSearchBar, fetchOrdersResolved,
+    } = this.props
+
     const searchQuery = location.search
 
     toggleSearchBar(SEARCH_ORDERS)
 
     dispatch(search(CLEAR_SEARCH))
-    dispatch(fetchOrders(searchQuery))
-    dispatch(fetchEmail(searchQuery))
+
+    if (isEmpty(fetchOrdersResolved) || fetchOrdersResolved.payload.searchQuery !== location.search) {
+      dispatch(fetchOrders(searchQuery))
+      dispatch(fetchEmail(searchQuery))
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -134,7 +140,7 @@ class Orders extends Component {
 
     const { selectedOrders, selectedRowKeys, activeTab } = this.state
 
-    const orders = !isEmpty(searchResultsOrders) ? searchResultsOrders : fetchOrdersResolved.payload
+    const orders = !isEmpty(searchResultsOrders) ? searchResultsOrders : fetchOrdersResolved.payload && fetchOrdersResolved.payload.data
     const email = fetchEmailResolved.payload
     const loading = !isEmpty(fetchOrdersPending)
     const emailSaved = !isEmpty(saveEmailResolved)

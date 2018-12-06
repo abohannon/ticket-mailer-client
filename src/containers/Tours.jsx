@@ -22,13 +22,17 @@ class Tours extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, toggleSearchBar } = this.props
+    const { dispatch, toggleSearchBar, fetchToursResolved } = this.props
 
     toggleSearchBar(SEARCH_TOURS)
 
     // clear search results if any are held in redux
     dispatch(search(CLEAR_SEARCH))
-    dispatch(fetchTours())
+
+    // only fetch is tour data doesn't exist yet
+    if (isEmpty(fetchToursResolved)) {
+      dispatch(fetchTours())
+    }
   }
 
   componentWillUnmount() {

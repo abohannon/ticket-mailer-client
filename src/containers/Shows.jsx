@@ -23,13 +23,18 @@ class Shows extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, location, toggleSearchBar } = this.props
+    const {
+      dispatch, location, toggleSearchBar, fetchShowsResolved,
+    } = this.props
     this.searchQuery = location.search
 
     toggleSearchBar(SEARCH_SHOWS)
 
     dispatch(search(CLEAR_SEARCH))
-    dispatch(fetchShows(this.searchQuery))
+
+    if (isEmpty(fetchShowsResolved) || fetchShowsResolved.payload.searchQuery !== location.search) {
+      dispatch(fetchShows(this.searchQuery))
+    }
   }
 
   componentWillUnmount() {
@@ -59,7 +64,7 @@ class Shows extends Component {
     }
 
     if (!isEmpty(fetchShowsResolved)) {
-      return this.parseShows(fetchShowsResolved.payload)
+      return this.parseShows(fetchShowsResolved.payload.data)
     }
 
     return []

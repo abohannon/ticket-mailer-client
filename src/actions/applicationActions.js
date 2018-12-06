@@ -90,9 +90,14 @@ export const fetchShows = searchQuery => async (dispatch) => {
       return dateA - dateB
     })
 
+    const newPayload = {
+      searchQuery,
+      data: payload,
+    }
+
     action = {
       type: FETCH_SHOWS_RESOLVED,
-      payload,
+      payload: newPayload,
     }
 
     dispatch(action)
@@ -127,9 +132,14 @@ export const fetchOrders = searchQuery => async (dispatch) => {
   try {
     const payload = await fetchHelper(endpoint, options)
 
+    const newPayload = {
+      searchQuery,
+      data: payload,
+    }
+
     action = {
       type: FETCH_ORDERS_RESOLVED,
-      payload,
+      payload: newPayload,
     }
 
     dispatch(action)

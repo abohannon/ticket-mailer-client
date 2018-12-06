@@ -123,7 +123,7 @@ export default (state = INITIAL_STATE, action) => {
       if (payload === '') {
         searchResultsShows = []
       } else {
-        searchResultsShows = state.fetchShowsResolved.payload.filter(show => show.title.toLowerCase().includes(payload.toLowerCase()))
+        searchResultsShows = state.fetchShowsResolved.payload.data.filter(show => show.title.toLowerCase().includes(payload.toLowerCase()))
       }
 
       return { ...state, searchValue: payload, searchResultsShows }
@@ -134,7 +134,7 @@ export default (state = INITIAL_STATE, action) => {
       if (payload === '') {
         searchResultsOrders = []
       } else {
-        searchResultsOrders = state.fetchOrdersResolved.payload.filter((order) => {
+        searchResultsOrders = state.fetchOrdersResolved.payload.data.filter((order) => {
           const { first_name, last_name } = order.customer
           const fullName = `${first_name} ${last_name}`
 
