@@ -14,3 +14,5 @@ app.set('port', process.env.PORT || 3000)
 const server = app.listen(app.get('port'), () => {
   console.log('listening on port ', server.address().port)
 })
+
+console.log('ENV: ', process.env.NODE_ENV)
