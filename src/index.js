@@ -10,7 +10,7 @@ import 'styles/antd-styles.css'
 import AppContainer from 'containers/AppContainer'
 
 const rootEl = document.getElementById('root')
-console.log('NODE_ENV', process.env.NODE_ENV)
+console.log('NODE_ENV:', process.env.NODE_ENV)
 
 const renderApp = Component => render(
   <Root>
