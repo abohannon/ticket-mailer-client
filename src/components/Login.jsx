@@ -35,7 +35,6 @@ class Login extends Component {
       if (err) {
         console.log(err)
       }
-      console.log(values)
       handleLogin(values)
     })
   };
