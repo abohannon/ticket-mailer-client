@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "private": true,
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
@@ -34,6 +37,7 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "antd": "^3.8.1",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
@@ -73,7 +77,6 @@
     "babel-eslint": "^8.2.6",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
-    "babel-plugin-module-resolver": "^3.1.1",
     "compression-webpack-plugin": "^2.0.0",
     "enzyme": "^3.4.2",
     "enzyme-adapter-react-16": "^1.2.0",
