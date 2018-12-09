@@ -28,8 +28,7 @@
     "staging": "NODE_ENV=staging webpack-dev-server --config ./webpack/development.babel.js",
     "prod": "NODE_ENV=production yarn start",
     "build": "webpack --config ./webpack/production.babel.js",
-    "test": "NODE_ENV=test jest --verbose",
-    "heroku-postbuild": "npm run build"
+    "test": "NODE_ENV=test jest --verbose"
   },
   "author": "Adam Bohannon",
   "license": "ISC",
@@ -38,6 +37,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/register": "^7.0.0",
     "babel-plugin-module-resolver": "^3.1.1",
+    "babel-loader": "^8.0.4",
     "antd": "^3.8.1",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
@@ -76,7 +76,6 @@
     "babel-core": "^7.0.0-bridge",
     "babel-eslint": "^8.2.6",
     "babel-jest": "^23.6.0",
-    "babel-loader": "^8.0.4",
     "compression-webpack-plugin": "^2.0.0",
     "enzyme": "^3.4.2",
     "enzyme-adapter-react-16": "^1.2.0",
